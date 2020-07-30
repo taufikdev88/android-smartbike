@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragmentId"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_margin="8dp"
+        android:text="@string/fragment_maps_no_text"
+        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fragmentMapsNo"/>
+
+    <TextView
+        android:layout_margin="8dp"
+        android:id="@+id/fragmentMapsDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text="@string/fragment_maps_date_text"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fragmentMapsTime"
+        android:textSize="12sp"
+        android:text="@string/fragment_maps_time_text"
+        android:layout_margin="8dp"/>
+
+    <TextView
+        android:id="@+id/fragmentMapsStep"
+        android:layout_width="0dp"
+        android:layout_height="0dp"/>
+</LinearLayout>

@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Smart Bike</string>
+    <string name="preferences_wifi">wifi_enabled</string>
+    <string name="main_default_rpm_val">---</string>
+    <string name="main_rpm_text">RPM</string>
+    <string name="main_image_header_desc">Header Image Main Layout</string>
+    <string name="main_txt_conn_state_text">Connection State</string>
+    <string name="main_img_btn_setting_desc">Image Setting</string>
+    <string name="main_img_btn_maps_desc">Main Image Button Maps</string>
+    <string name="main_image_normal_desc">main_image_normal_desc</string>
+    <string name="main_lbl_img_btn_normal_text">Normal Mode</string>
+    <string name="main_img_btn_speed_desc">Main Image Button Speed Mode</string>
+    <string name="main_lbl_img_btn_speed_text">Speed Mode</string>
+    <string name="warning_main_start_mode">Must be turn on first</string>
+    <string name="setting_lbl_header">Settings Mode</string>
+    <string name="setting_txt_normal_rpm_hint">Normal RPM</string>
+    <string name="setting_txt_speed_rpm_hint">Speed RPM</string>
+    <string name="setting_lbl_card_rpm_tune_text">RPM Tune</string>
+    <string name="setting_btn_save_text">Save</string>
+    <string name="setting_btn_cancel_text">Cancel</string>
+    <string name="fragment_maps_no_text">1</string>
+    <string name="fragment_maps_date_text">00/00/0000</string>
+    <string name="fragment_maps_time_text">18:00</string>
+</resources>

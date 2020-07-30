@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="24dp"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/settingLblHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="36sp"
+        android:textColor="@color/colorPrimary"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="24dp"
+        android:text="@string/setting_lbl_header"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <androidx.cardview.widget.CardView
+        app:cardElevation="14dp"
+        android:layout_margin="16dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/settingCardRpmTune"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        android:layout_below="@+id/settingLblHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_margin="24dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:text="@string/setting_lbl_card_rpm_tune_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginLeft="16dp"
+                android:layout_width="match_parent"
+                android:hint="@string/setting_txt_normal_rpm_hint"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/settingTxtNormalMode"
+                    android:hint="@string/setting_txt_normal_rpm_hint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginLeft="16dp"
+                android:layout_width="match_parent"
+                android:hint="@string/setting_txt_speed_rpm_hint"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/settingTxtSpeedMode"
+                    android:hint="@string/setting_txt_speed_rpm_hint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/settingCardRpmTune">
+
+        <Button
+            android:id="@+id/settingBtnSave"
+            android:layout_marginRight="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setting_btn_save_text"
+            android:textColor="@android:color/black"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:layout_marginEnd="16dp"
+            tools:targetApi="lollipop"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/settingBtnCancel"
+            android:textColor="@android:color/black"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:layout_marginLeft="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setting_btn_cancel_text"
+            android:layout_marginStart="16dp"
+            tools:targetApi="lollipop"
+            tools:ignore="ButtonStyle" />
+    </LinearLayout>
+</RelativeLayout>

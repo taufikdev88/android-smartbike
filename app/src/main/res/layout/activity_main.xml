@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white"
+    android:layout_centerVertical="true">
+
+    <ImageView
+        android:layout_marginTop="16dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/mainImageHeader"
+        android:src="@drawable/normal"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:contentDescription="@string/main_image_header_desc" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/mainCardInfo"
+        android:layout_alignTop="@+id/mainImageHeader"
+        android:layout_marginTop="180dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginLeft="24dp"
+        android:background="@color/colorPrimary"
+        app:cardBackgroundColor="#FFC107"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_margin="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:text="@string/app_name"/>
+
+            <TextView
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="48sp"
+                android:autoSizeStepGranularity="2sp"
+                android:id="@+id/mainTxtRpmMon"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="48sp"
+                android:text="@string/main_default_rpm_val"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:targetApi="o" />
+
+            <TextView
+                android:layout_marginRight="32dp"
+                android:gravity="right"
+                android:textSize="24sp"
+                android:text="@string/main_rpm_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                tools:ignore="RtlHardcoded" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <SeekBar
+        android:layout_margin="24dp"
+        android:focusable="true"
+        android:layout_below="@+id/mainCardInfo"
+        android:id="@+id/mainSeekState"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:clickable="false"
+        android:progressDrawable="@android:color/transparent"
+        android:max="100"
+        android:progress="0"
+        android:thumb="@drawable/custom_thumb"
+        android:background="@drawable/seekbar_bg"/>
+
+    <TextView
+        android:id="@+id/center_line_vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/mainSeekState"
+        android:layout_width="0dp"
+        android:layout_height="0dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/mainCardSpeed"
+        android:layout_marginLeft="8dp"
+        android:layout_alignLeft="@+id/center_line_vertical"
+        android:background="@color/colorAccent"
+        app:cardBackgroundColor="@color/colorAccent"
+        android:layout_below="@+id/center_line_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/center_line_vertical"
+        android:layout_marginStart="8dp">
+
+        <LinearLayout
+            android:layout_marginRight="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginEnd="24dp">
+
+            <TextView
+                android:gravity="center"
+                android:background="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/main_lbl_img_btn_speed_text"
+                android:textSize="16sp"/>
+
+            <ImageButton
+                android:id="@+id/mainBtnSpeed"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/speed"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:contentDescription="@string/main_img_btn_speed_desc" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/mainCardNormal"
+        android:layout_marginRight="8dp"
+        android:layout_alignRight="@+id/center_line_vertical"
+        android:padding="8dp"
+        app:cardBackgroundColor="@color/colorAccent"
+        android:layout_below="@+id/center_line_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/center_line_vertical"
+        android:layout_marginEnd="8dp">
+
+        <LinearLayout
+            android:layout_marginLeft="32dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="24dp">
+            <TextView
+                android:background="@android:color/white"
+                android:textSize="16sp"
+                android:text="@string/main_lbl_img_btn_normal_text"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <ImageButton
+                android:id="@+id/mainBtnNormal"
+                android:background="@android:color/transparent"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:contentDescription="@string/main_image_normal_desc"
+                android:scaleType="fitCenter"
+                android:src="@drawable/normal" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <ImageButton
+        android:id="@+id/mainBtnMaps"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:layout_margin="24dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/maps"
+        android:layout_alignParentEnd="true"
+        android:contentDescription="@string/main_img_btn_maps_desc" />
+
+    <ImageButton
+        android:id="@+id/mainBtnSetting"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="26dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/adjust"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:scaleType="fitCenter"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="24dp"
+        android:contentDescription="@string/main_img_btn_setting_desc" />
+
+    <TextView
+        android:layout_marginBottom="24dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="@string/main_txt_conn_state_text"
+        android:id="@+id/mainTxtConnState"
+        tools:targetApi="o" />
+</RelativeLayout>
