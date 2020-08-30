@@ -5,27 +5,25 @@ import com.google.gson.annotations.SerializedName;
 public class GetModel {
     @SerializedName("status")
     private String status;
-    @SerializedName("rpm")
-    private int rpm;
+    @SerializedName("state")
+    private String state;
 
-    public GetModel(String status, int rpm) {
+    public GetModel(String status, String state) {
         this.status = status;
-        this.rpm = rpm;
+        this.state = state;
     }
 
-    public String getStatus() {
-        return status;
-    }
+    public String getStatus() { return status; }
 
     public void setStatus(String status) {
         this.status = status;
     }
 
-    public int getRpm() {
-        return rpm;
+    public String getState() {
+        return state;
     }
 
-    public void setRpm(int rpm) {
-        this.rpm = rpm;
+    public void setState(String state) {
+        this.state = state;
     }
 }

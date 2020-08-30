@@ -2,7 +2,7 @@
     <string name="app_name">Smart Bike</string>
     <string name="preferences_wifi">wifi_enabled</string>
     <string name="main_default_rpm_val">---</string>
-    <string name="main_rpm_text">RPM</string>
+    <string name="main_rpm_text">state of motor</string>
     <string name="main_image_header_desc">Header Image Main Layout</string>
     <string name="main_txt_conn_state_text">Connection State</string>
     <string name="main_img_btn_setting_desc">Image Setting</string>

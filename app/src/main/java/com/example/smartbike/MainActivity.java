@@ -241,13 +241,14 @@ public class MainActivity extends AppCompatActivity {
                     MainModel mainModel = response.body();
                     Log.d("RETROFIT DEBUG", mainModel.getStatus() + ", " + mainModel.isState());
                     Toast.makeText(getApplicationContext(), "Motor Ready", Toast.LENGTH_SHORT).show();
-                    if(disposable == null){
-                        startReadRpm();
-                    } else {
-                        if(disposable.isDisposed()){
-                            startReadRpm();
-                        }
-                    }
+                    txtRpmMon.setText("Motor On");
+//                    if(disposable == null){
+//                        startReadRpm();
+//                    } else {
+//                        if(disposable.isDisposed()){
+//                            startReadRpm();
+//                        }
+//                    }
                 } else {
                     Toast.makeText(MainActivity.this, "Cannot communicate with device", Toast.LENGTH_SHORT).show();
                 }
@@ -262,24 +263,28 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // gak dipake lagi karena ga perlu cek rpm terus
     private void startReadRpm(){
         disposable = Observable.interval(1, 5, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::callEndPoint, this::onError);
     }
 
+    // gak dipake lagi
     private void callEndPoint(long along){
         Observable<GetModel> observable = services.get();
         observable.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(result -> result.getRpm())
+                .map(result -> result.getState())
                 .subscribe(this::handleResult, this::handleError);
     }
 
-    private void handleResult(Integer integer) {
-        txtRpmMon.setText(String.valueOf(integer));
+    // gak dipake
+    private void handleResult(String result) {
+        txtRpmMon.setText(result);
     }
 
+    // gak dipake
     private void handleError(Throwable t){
         t.printStackTrace();
     }
@@ -297,7 +302,8 @@ public class MainActivity extends AppCompatActivity {
                     MainModel mainModel = response.body();
                     Log.d("RETROFIT DEBUG", mainModel.getStatus() + ", " + mainModel.isState());
                     Toast.makeText(getApplicationContext(), "Motor Off", Toast.LENGTH_SHORT).show();
-                    disposable.dispose();
+//                    disposable.dispose();
+                    txtRpmMon.setText("Motor Off");
                 } else {
                     Toast.makeText(MainActivity.this, "Cannot communicate with device", Toast.LENGTH_SHORT).show();
                 }
