@@ -72,33 +72,43 @@ public class MapsActivity extends AppCompatActivity {
         mapController.setCenter(startPoint);
 
         listMapsHistory = findViewById(R.id.mapsListHistory);
+
+        // siapkan database handler buat mengambil log lat long
         final DatabaseHandler databaseHandler = new DatabaseHandler(getApplicationContext());
         final ArrayList<MapsModel> mapsModels = databaseHandler.getStepList();
+        // ambil listnya dan masukkan ke mapsModel
         for (int i=0; i<mapsModels.size(); i++){
             Log.d("DB DEBUG", String.valueOf(mapsModels.get(i).getStep()));
         }
+        // lalu tampilkan datanya ke UI, menggunakan adaptor ini
         final MapsAdaptor adaptor = new MapsAdaptor(mapsModels);
         listMapsHistory.setAdapter(adaptor);
         listMapsHistory.setLayoutManager(new LinearLayoutManager(this));
         listMapsHistory.setHasFixedSize(true);
         listMapsHistory.setItemAnimator(new SlideInUpAnimator());
+
+        // setiap ada pergantian list / pergantian data maka lakukan perintah ini
         listMapsHistory.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
             @Override
             public void onChildViewAttachedToWindow(@NonNull final View view) {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        // setiap kali user klik recycle viewnya
                         try {
                             if(mapView.getOverlayManager().overlays().size() > 0){
                                 mapView.getOverlayManager().remove(0);
                                 Log.d("OVERLAY DEBUG","Hapus overlay yg sudah ada");
                             }
+                            // ambil posisi list yang di klik
                             RecyclerView.ViewHolder viewHolder = listMapsHistory.getChildViewHolder(v);
                             int position = viewHolder.getAdapterPosition();
+                            // lalu ambil dari database data data lat long berdasar posisi yang di klik
                             ArrayList<MapsModel> mapsHistory = databaseHandler.getMapsHistory(mapsModels.get(position));
                             Polyline polyline = new Polyline(mapView, true);
                             List<GeoPoint> pts = new ArrayList<>();
 //                            Random r = new Random();
+                            // setelah didapat data dari database, buat point yang saling nyambung 1 sama lain
                             for (MapsModel m : mapsHistory){
                                 Log.d("HISTORY DEBUG", "lat: " + m.getLatitude() + ", long: " + m.getLongitude());
 //                                GeoPoint pt = new GeoPoint(m.getLatitude()*r.nextDouble(), m.getLongitude()*r.nextDouble());
@@ -106,10 +116,12 @@ public class MapsActivity extends AppCompatActivity {
                                 pts.add(pt);
                                 mapController.setCenter(pt);
                             }
+                            // poles warna dan ketebalannya
                             polyline.getOutlinePaint().setColor(Color.RED);
                             polyline.getOutlinePaint().setStrokeWidth(4.0f);
                             polyline.setPoints(pts);
                             polyline.setGeodesic(true);
+                            // tampilkan di maps
                             mapView.getOverlayManager().add(polyline);
                             mapView.invalidate();
                         } catch (Exception e) {
@@ -118,12 +130,14 @@ public class MapsActivity extends AppCompatActivity {
                     }
                 });
 
+                // saat recycle view nya di klik lama
                 view.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
+                        // ambil posisi list yang diklik lama
                         RecyclerView.ViewHolder viewHolder = listMapsHistory.getChildViewHolder(v);
                         final int position = viewHolder.getAdapterPosition();
-
+                        // lalu tampilkan konfirmasi ke user apakah mau dihapus
                         final AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
                         builder.setMessage("Do yout want to delete this record ?")
                                 .setTitle(String.format("Delete Confirmation %s %s", mapsModels.get(position).getDate(), mapsModels.get(position).getTime()));
@@ -131,7 +145,9 @@ public class MapsActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 try {
+                                    // kalau ya, maka hapus dari database
                                     databaseHandler.deleteRecord(mapsModels.get(position));
+                                    // lakukan update tampilan
                                     mapsModels.remove(position);
                                     listMapsHistory.removeViewAt(position);
                                     adaptor.notifyItemRemoved(position);
@@ -170,6 +186,8 @@ public class MapsActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+
+        // saat keluar dari aplikasi, simpan tampilan maps ke dalam cache
         mapView.onPause();
 
         List<Overlay> folder = null;

@@ -15,6 +15,7 @@ import com.example.smartbike.model.MapsModel;
 
 import java.util.ArrayList;
 
+// recycle adaptor
 public class MapsAdaptor extends RecyclerView.Adapter<MapsAdaptor.ViewHolder> {
     public ArrayList<MapsModel> dataSet;
 
@@ -26,6 +27,7 @@ public class MapsAdaptor extends RecyclerView.Adapter<MapsAdaptor.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
+        // ambil fragment layout list nya untuk ditampilkan di recycle view
         LayoutInflater layoutInflater = LayoutInflater.from(context);
 
         View mapsView = layoutInflater.inflate(R.layout.fragment_maps_history, parent, false);
@@ -34,6 +36,7 @@ public class MapsAdaptor extends RecyclerView.Adapter<MapsAdaptor.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MapsAdaptor.ViewHolder holder, int position) {
+        // saat proses binding, ambil datanya sesuai proses bindingnya
         MapsModel mapsModel =  dataSet.get(position);
 
         TextView txtNo = holder.txtNo;

@@ -78,10 +78,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        // setting agar handphone layarnya tetep nyala saat aplikasi ini dibuka
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        // set tampilan aktifity ini menggunakan layout main
         setContentView(R.layout.activity_main);
-
+        // siapkan object LocationManager untuk nanti digunakan melihat posisi org tersebut
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         txtRpmMon = findViewById(R.id.mainTxtRpmMon);
@@ -93,9 +94,9 @@ public class MainActivity extends AppCompatActivity {
         cardNormal = findViewById(R.id.mainCardNormal);
         cardSpeed = findViewById(R.id.mainCardSpeed);
         imageHeader = findViewById(R.id.mainImageHeader);
-
+        // set text rpm sebagai text yg berubah ubah
         TextViewCompat.setAutoSizeTextTypeWithDefaults(txtRpmMon, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
-
+        // saat di klik ikon setting, maka nanti layar setting aplikasinya terbuka
         btnSetting.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), SettingActivity.class);
             startActivity(intent);
@@ -106,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        // menggunakan seekbar untuk ganti on off, agar sistem bener bener dinyalakan oleh user, karena jika model button, bisa saja kepencet
         seekState.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -121,19 +123,26 @@ public class MainActivity extends AppCompatActivity {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                // setelah user berhenti menggeser, di cek dulu statusnya ON atau OFF
                 switch (state) {
                     case ON:
+                        // jika terakhir di geser belum ada 100 tp sudah diatas 90, langsung aja set ke 100
                         seekBar.setProgress(100);
+                        // cek dulu permission untuk akses lokasi
                         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
                             requestPermissionsIfNecessary(new String[]{ Manifest.permission.ACCESS_FINE_LOCATION });
                         } else if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                             requestPermissionsIfNecessary(new String[]{ Manifest.permission.ACCESS_COARSE_LOCATION});
                         } else {
+                            // setelah semua permission lokasi dapat, mulai request update lokasi dengan interval 2000ms dengan minimum perpindahan jarak 1 meter
+                            // saat 2 detik sekali dan ada perpindahan jarak minimal 1 meter, maka akan menjalankan fungsi locationListener yg ada di bawah
                             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 1, locationListener);
                         }
+                        // dan aktifkan motor
                         motorOn();
                         break;
                     case OFF:
+                        // kalau off set tampilan nya seperti awal semua dan matikan motor dan berhenti melihat pergantian lokasi
                         cardNormal.setCardBackgroundColor(Color.parseColor("#FFEB3B"));
                         cardNormal.setCardElevation(0);
                         cardSpeed.setCardBackgroundColor(Color.parseColor("#FFEB3B"));
@@ -145,20 +154,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
+        // jika button mode normal di pencet
         btnNormal.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
+                // jika motor belum on, harus di on kan dulu
                 if (state.equals(State.OFF)) {
                     Toast.makeText(MainActivity.this, R.string.warning_main_start_mode, Toast.LENGTH_LONG).show();
                     seekState.findFocus();
                     return;
                 }
+                // menggunakan retrofit untuk koneksi ke arduino
+                // dengan memberi nilai parameter pada retrofit motorOn true dan mode normal true
                 Call<MainModel> normal = services.main(1,1);
                 normal.enqueue(new Callback<MainModel>() {
                     @Override
                     public void onResponse(Call<MainModel> call, Response<MainModel> response) {
+                        // kalo sukses di kirim ke arduino baru , set tampilan nya
                         if(response.isSuccessful()){
                             cardNormal.setCardElevation(24);
                             cardNormal.setCardBackgroundColor(Color.parseColor("#FFC107"));
@@ -218,17 +231,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // siapkan koneksi ke database
         databaseHandler = new DatabaseHandler(getApplicationContext());
+        // siapkan variabel tanggal sekarang
         now = new Date(System.currentTimeMillis());
         dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
         Log.d(getString(R.string.app_name), "Date: " + dateFormat.format(now));
+        // ambil nilai terakhir jumlah koneksi pada hari ini
         step = databaseHandler.getLastStepByDate(dateFormat.format(now));
 
+        // request permission untuk akses lokasi yg didapat oleh handphone
         requestPermissionsIfNecessary(new String[]{
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION
         });
-
+        // siapkan variabel untuk retrofit / koneksi ke arduino
         services = ApiClient.getRetrofitInstance().create(GetServices.class);
     }
 
@@ -319,7 +336,9 @@ public class MainActivity extends AppCompatActivity {
     private final LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
+            // ini adalah fungsi tadi , saat lokasinya berubah maka
             Log.d(getString(R.string.app_name), "Lat: " + location.getLatitude() + " ,Long: " + location.getLongitude());
+            // ini objek yg digunakan untuk mempermudah menyimpan payload data yg nanti di simpan ke database
             MapsModel mapsModel = new MapsModel();
             // set step to last step today
             mapsModel.setStep(step);
@@ -352,6 +371,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    // saat aplikasi di pause (user berpindah ke aplikasi lain)
     @Override
     protected void onPause() {
         super.onPause();

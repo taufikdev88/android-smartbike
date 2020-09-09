@@ -14,10 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
+    // nama database dan tabel
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "DB_SMARTBIKE.db";
     private static final String TABLE_NAME = "TBL_HISTORY";
-
+    // nama kolom
     private static final String KEY_ID = "id";
     private static final String KEY_STEP = "step";
     private static final String KEY_DATE = "date";
@@ -31,6 +32,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // saat proses pembuatan databse
         String create_sql = String.format("CREATE TABLE %s(%s INTEGER PRIMARY KEY,%s INTEGER,%s TEXT,%s TEXT,%s TEXT,%s TEXT)", TABLE_NAME, KEY_ID, KEY_STEP, KEY_DATE, KEY_TIME, KEY_LATITUDE, KEY_LONGITUDE);
         db.execSQL(create_sql);
     }
@@ -41,6 +43,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    // ini adalah proses penyimpanan data ke database
     public void addRecord(MapsModel mapsModel){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -53,6 +56,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    // ambil data berdasarkan stepnya
     public ArrayList<MapsModel> getStepList() {
         ArrayList<MapsModel> stepList = new ArrayList<>();
         String selectQuery = String.format("SELECT * FROM %s GROUP BY `%s`", TABLE_NAME, KEY_STEP);
@@ -78,6 +82,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return stepList;
     }
 
+    // ambil semua history lat long berdasarkan single objek MapsModel yang berisi tanggal dan stepnya
     public ArrayList<MapsModel> getMapsHistory(MapsModel mapsModel) {
         ArrayList<MapsModel> historyList = new ArrayList<>();
         @SuppressLint("DefaultLocale") String selectQuery = String.format("SELECT * FROM %s WHERE %s = '%d' AND %s = '%s'", TABLE_NAME, KEY_STEP, mapsModel.getStep(), KEY_DATE, mapsModel.getDate());
@@ -103,6 +108,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return historyList;
     }
 
+    // perintah hapus
     public boolean deleteRecord(MapsModel mapsModel){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_NAME, String.format("%s = ? and %s = ?", KEY_STEP, KEY_DATE), new String[]{
@@ -113,6 +119,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return true;
     }
 
+    // perintah untuk mencari tahu nilai login terakhir pada tanggal yang sama
     public int getLastStepByDate(String date){
         String getQuery = String.format("SELECT MAX(%s) FROM %s WHERE %s = '%s'", KEY_STEP, TABLE_NAME, KEY_DATE, date);
         Log.d("DB DEBUG", getQuery);
